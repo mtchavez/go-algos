@@ -13,3 +13,21 @@ func TestMergeSort(t *testing.T) {
 		t.Errorf("Expected to be sorted but got %x", x)
 	}
 }
+
+func TestMergeSortEmpty(t *testing.T) {
+	x := []int{}
+	MergeSort(x, 0, len(x)-1)
+	expected := []int{}
+	if !reflect.DeepEqual(expected, x) {
+		t.Errorf("Expected to be empty still but got %x", x)
+	}
+}
+
+func TestMergeSortOneElement(t *testing.T) {
+	x := []int{122}
+	MergeSort(x, 0, len(x)-1)
+	expected := []int{122}
+	if !reflect.DeepEqual(expected, x) {
+		t.Errorf("Expected to have one element %x", x)
+	}
+}
