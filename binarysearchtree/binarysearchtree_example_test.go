@@ -29,3 +29,27 @@ func Example_Search() {
 	// Output:
 	// Searched for 16 and got 16
 }
+
+func Example_Min() {
+	t := New()
+	values := []int{4, 3, 1, 2, 8, 7, 16, 10, 9, 14}
+	for _, x := range values {
+		t.Insert(x)
+	}
+	node := t.Min()
+	fmt.Printf("Min of tree is %+v\n", node.key)
+	// Output:
+	// Min of tree is 1
+}
+
+func Example_Max() {
+	t := New()
+	values := []int{4, 3, 1, 2, 8, 7, 16, 10, 9, 14}
+	for _, x := range values {
+		t.Insert(x)
+	}
+	node := t.Max()
+	fmt.Printf("Max of tree is %+v\n", node.key)
+	// Output:
+	// Max of tree is 16
+}

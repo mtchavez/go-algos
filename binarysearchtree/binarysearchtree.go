@@ -42,6 +42,22 @@ func (t *Tree) Search(val int) (n *node) {
 	return n
 }
 
+func (t *Tree) Min() (n *node) {
+	n = t.root
+	for n != nil && n.left != nil {
+		n = n.left
+	}
+	return n
+}
+
+func (t *Tree) Max() (n *node) {
+	n = t.root
+	for n != nil && n.right != nil {
+		n = n.right
+	}
+	return n
+}
+
 func (t *Tree) Insert(val int) {
 	if t.root == nil {
 		t.root = &node{key: val}
