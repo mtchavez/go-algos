@@ -30,6 +30,18 @@ func inOrder(n *node, f ValConsumer) {
 	inOrder(n.right, f)
 }
 
+func (t *Tree) Search(val int) (n *node) {
+	n = t.root
+	for n != nil && n.key != val {
+		if val < n.key {
+			n = n.left
+		} else {
+			n = n.right
+		}
+	}
+	return n
+}
+
 func (t *Tree) Insert(val int) {
 	if t.root == nil {
 		t.root = &node{key: val}
