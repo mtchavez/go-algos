@@ -54,7 +54,10 @@ func min(n *node) *node {
 }
 
 func (t *Tree) Max() (n *node) {
-	n = t.root
+	return max(t.root)
+}
+
+func max(n *node) *node {
 	for n != nil && n.right != nil {
 		n = n.right
 	}
@@ -70,6 +73,21 @@ func Successor(n *node) (s *node) {
 	}
 	s = n.parent
 	for s != nil && s.left != n {
+		n = s
+		s = s.parent
+	}
+	return s
+}
+
+func Predecessor(n *node) (s *node) {
+	if n == nil {
+		return s
+	}
+	if n.left != nil {
+		return min(n.left)
+	}
+	s = n.parent
+	for s != nil && s.right != n {
 		n = s
 		s = s.parent
 	}
