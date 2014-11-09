@@ -53,3 +53,15 @@ func Example_Max() {
 	// Output:
 	// Max of tree is 16
 }
+
+func Example_Successor() {
+	t := New()
+	values := []int{4, 3, 1, 2, 8, 7, 16, 10, 9, 14}
+	for _, x := range values {
+		t.Insert(x)
+	}
+	node := Successor(t.Search(8))
+	fmt.Printf("Successor of 8 is %+v\n", node.key)
+	// Output:
+	// Successor of 8 is 9
+}

@@ -42,8 +42,11 @@ func (t *Tree) Search(val int) (n *node) {
 	return n
 }
 
-func (t *Tree) Min() (n *node) {
-	n = t.root
+func (t *Tree) Min() *node {
+	return min(t.root)
+}
+
+func min(n *node) *node {
 	for n != nil && n.left != nil {
 		n = n.left
 	}
@@ -56,6 +59,21 @@ func (t *Tree) Max() (n *node) {
 		n = n.right
 	}
 	return n
+}
+
+func Successor(n *node) (s *node) {
+	if n == nil {
+		return s
+	}
+	if n.right != nil {
+		return min(n.right)
+	}
+	s = n.parent
+	for s != nil && s.left != n {
+		n = s
+		s = s.parent
+	}
+	return s
 }
 
 func (t *Tree) Insert(val int) {
