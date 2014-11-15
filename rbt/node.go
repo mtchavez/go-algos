@@ -8,6 +8,12 @@ const (
 	DOUBLY_BLACK
 )
 
+var COLORMAP = map[Color]string{
+	RED:          "RED",
+	BLACK:        "BLACK",
+	DOUBLY_BLACK: "DOUBLY_BLACK",
+}
+
 type node struct {
 	color  Color
 	left   *node
@@ -46,4 +52,26 @@ func (n *node) replace(y *node) {
 		n.parent.setRight(y)
 	}
 	n.parent = nil
+}
+
+func (n *node) sibling() *node {
+	if n.parent.left == n {
+		return n.parent.right
+	} else {
+		return n.parent.left
+	}
+}
+
+func (n *node) uncle() *node {
+	if n.parent == nil {
+		return n.parent
+	}
+	return n.parent.sibling()
+}
+
+func (n *node) grandparent() *node {
+	if n.parent == nil {
+		return n.parent
+	}
+	return n.parent.parent
 }
