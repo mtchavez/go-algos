@@ -57,6 +57,52 @@ func Test_setChildren(t *testing.T) {
 	}
 }
 
+func Test_replace_noParent(t *testing.T) {
+	n := &node{}
+	n.replace(nil)
+	if n.parent != nil {
+		t.Errorf("Expected parent to be nil after replace")
+	}
+
+	p := &node{}
+	y := &node{parent: p}
+	n.replace(y)
+	if y.parent != nil {
+		t.Errorf("Expected y node to have no parent")
+	}
+	if n.parent != nil {
+		t.Errorf("Parent of n should be nil")
+	}
+}
+
+func Test_replace_parentLeft(t *testing.T) {
+	p := &node{}
+	n := &node{}
+	p.setChildren(n, nil)
+	y := &node{}
+	n.replace(y)
+	if n.parent != nil {
+		t.Errorf("Parent of n should be nil on replace")
+	}
+	if p.left != y {
+		t.Errorf("Left parent node should have been replaced with y")
+	}
+}
+
+func Test_replace_parentRight(t *testing.T) {
+	p := &node{}
+	n := &node{}
+	p.setChildren(nil, n)
+	y := &node{}
+	n.replace(y)
+	if n.parent != nil {
+		t.Errorf("Parent of n should be nil on replace")
+	}
+	if p.right != y {
+		t.Errorf("Right arent node should have been replaced with y")
+	}
+}
+
 func Test_sibling_noParent(t *testing.T) {
 	n := &node{}
 	if n.sibling() != nil {
