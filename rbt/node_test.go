@@ -1,8 +1,6 @@
 package rbt
 
-import (
-	"testing"
-)
+import "testing"
 
 func Test_setLeft(t *testing.T) {
 	n := &node{}
@@ -56,5 +54,58 @@ func Test_setChildren(t *testing.T) {
 	}
 	if left.parent != n {
 		t.Errorf("Expected left parent to be set")
+	}
+}
+
+func Test_sibling_noParent(t *testing.T) {
+	n := &node{}
+	if n.sibling() != nil {
+		t.Errorf("Sibling of node without parent should be nil")
+	}
+}
+
+func Test_sibling_leftNodeSame(t *testing.T) {
+	x := &node{}
+	y := &node{}
+	y.setLeft(x)
+	if x.sibling() != nil {
+		t.Errorf("Sibling of left node of parent should be nil if no right node")
+	}
+
+	right := &node{}
+	y.setRight(right)
+	if x.sibling() != right {
+		t.Errorf("Sibling of left node should be right node")
+	}
+}
+
+func Test_sibling_leftNode(t *testing.T) {
+	x := &node{}
+	y := &node{}
+	z := &node{}
+	y.setChildren(z, x)
+	if x.sibling() != z {
+		t.Errorf("Sibling of left node of parent should be nil if no right node")
+	}
+}
+
+func Test_uncle_nilParent(t *testing.T) {
+	x := &node{}
+	if x.uncle() != nil {
+		t.Errorf("Uncle of node without parent should be nil")
+	}
+}
+
+func Test_grandparent(t *testing.T) {
+	x := &node{}
+	n := &node{}
+	x.setChildren(n, nil)
+	if x.grandparent() != nil {
+		t.Errorf("Grandparent of node without parent should be nil")
+	}
+	y := &node{}
+	n.setChildren(y, nil)
+	if y.grandparent() != x {
+		t.Errorf("Granparent of node should be the parent of the parent")
 	}
 }

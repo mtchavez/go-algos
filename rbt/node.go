@@ -42,7 +42,7 @@ func (n *node) setChildren(x, y *node) {
 }
 
 func (n *node) replace(y *node) {
-	if y.parent == nil {
+	if n.parent == nil {
 		if y != nil {
 			y.parent = nil
 		}
@@ -55,7 +55,9 @@ func (n *node) replace(y *node) {
 }
 
 func (n *node) sibling() *node {
-	if n.parent.left == n {
+	if n.parent == nil {
+		return n.parent
+	} else if n.parent.left == n {
 		return n.parent.right
 	} else {
 		return n.parent.left
