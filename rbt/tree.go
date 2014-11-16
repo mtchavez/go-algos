@@ -1,5 +1,7 @@
 package rbt
 
+import "fmt"
+
 type Tree struct {
 	root *node
 }
@@ -24,4 +26,72 @@ func (t *Tree) rightRotate(y *node) {
 	if parent == nil {
 		t.root = x
 	}
+}
+
+func (t *Tree) Insert(key int) {
+	n := t.root
+	x := &node{key: key}
+	var parent *node
+	for n != nil {
+		parent = n
+		if key < n.key {
+			n = n.left
+		} else {
+			n = n.right
+		}
+	}
+	if parent == nil {
+		// Tree is empty so set root
+		t.root = x
+	} else if key < parent.key {
+		parent.setLeft(x)
+	} else {
+		parent.setRight(x)
+	}
+	t.balanceInsert(x)
+}
+
+func (t *Tree) balanceInsert(x *node) {
+	for x.parent != nil && x.parent.color == RED {
+		uncle := x.uncle()
+		grandparent := x.grandparent()
+		if uncle.color == RED {
+			x.parent.color = BLACK
+			grandparent.color = RED
+			uncle.color = BLACK
+			x = grandparent
+		} else {
+			if x.parent == grandparent.left {
+				if x == x.parent.right {
+					x = x.parent
+					t.leftRotate(x)
+				}
+				x.parent.color = BLACK
+				grandparent.color = RED
+				t.rightRotate(grandparent)
+			} else {
+				if x == x.parent.left {
+					x = x.parent
+					t.rightRotate(x)
+				}
+				x.parent.color = BLACK
+				grandparent.color = RED
+				t.rightRotate(grandparent)
+			}
+		}
+	}
+	t.root.color = BLACK
+}
+
+func (t *Tree) String() string {
+	return t.asString(t.root)
+}
+
+func (t *Tree) asString(n *node) string {
+	if n == nil {
+		return "."
+	} else {
+		return fmt.Sprintf("(l:%+v key:%+v color:%+v r:%+v)", t.asString(n.left), n.key, COLORMAP[n.color], t.asString(n.right))
+	}
+
 }
