@@ -8,10 +8,15 @@ type Tree struct {
 
 func (t *Tree) leftRotate(x *node) {
 	parent, y := x.parent, x.right
-	a, b, c := x.left, y.left, y.right
-	x.replace(y)
+	var a, b, c *node
+	if y != nil {
+		b = y.left
+		c = y.right
+		x.replace(y)
+		y.setChildren(y, c)
+	}
+	a = x.left
 	x.setChildren(a, b)
-	y.setChildren(y, c)
 	if parent == nil {
 		t.root = y
 	}
