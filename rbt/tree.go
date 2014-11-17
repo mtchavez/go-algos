@@ -19,10 +19,15 @@ func (t *Tree) leftRotate(x *node) {
 
 func (t *Tree) rightRotate(y *node) {
 	parent, x := y.parent, y.left
-	a, b, c := x.left, x.right, y.right
-	y.replace(x)
+	var a, b, c *node
+	if x != nil {
+		a = x.left
+		b = x.right
+		y.replace(x)
+		x.setChildren(a, y)
+	}
+	c = y.right
 	y.setChildren(b, c)
-	x.setChildren(a, y)
 	if parent == nil {
 		t.root = x
 	}
@@ -55,7 +60,7 @@ func (t *Tree) balanceInsert(x *node) {
 	for x.parent != nil && x.parent.color == RED {
 		uncle := x.uncle()
 		grandparent := x.grandparent()
-		if uncle.color == RED {
+		if uncle != nil && uncle.color == RED {
 			x.parent.color = BLACK
 			grandparent.color = RED
 			uncle.color = BLACK
