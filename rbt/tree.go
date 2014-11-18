@@ -93,6 +93,14 @@ func (t *Tree) balanceInsert(x *node) {
 	t.root.color = BLACK
 }
 
+func (t *Tree) Min() *node {
+	r := t.root
+	for r != nil && r.left != nil {
+		r = r.left
+	}
+	return r
+}
+
 func (t *Tree) Search(key int) *node {
 	r := t.root
 	for r != nil && r.key != key {

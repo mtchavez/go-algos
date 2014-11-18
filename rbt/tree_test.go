@@ -2,6 +2,25 @@ package rbt
 
 import "testing"
 
+func TestMin_empty(t *testing.T) {
+	tree := &Tree{}
+	min := tree.Min()
+	if min != nil {
+		t.Errorf("Min of empty tree should be nil")
+	}
+}
+
+func TestMin(t *testing.T) {
+	tree := &Tree{}
+	for _, val := range []int{5, 4, 3, 2, 1} {
+		tree.Insert(val)
+	}
+	min := tree.Min()
+	if min.key != 1 {
+		t.Errorf("Min oftree should be 1 but got %+v", min.key)
+	}
+}
+
 func TestSearch_empty(t *testing.T) {
 	tree := &Tree{}
 	found := tree.Search(99)
