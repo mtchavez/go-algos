@@ -17,7 +17,7 @@ func (t *Tree) leftRotate(x *node) {
 	}
 	a = x.left
 	x.setChildren(a, b)
-	if parent == nil {
+	if parent == nil && y != nil {
 		t.root = y
 	}
 }
@@ -33,7 +33,7 @@ func (t *Tree) rightRotate(y *node) {
 	}
 	c = y.right
 	y.setChildren(b, c)
-	if parent == nil {
+	if parent == nil && x != nil {
 		t.root = x
 	}
 }
@@ -91,6 +91,18 @@ func (t *Tree) balanceInsert(x *node) {
 		}
 	}
 	t.root.color = BLACK
+}
+
+func (t *Tree) Search(key int) *node {
+	r := t.root
+	for r != nil && r.key != key {
+		if key < r.key {
+			r = r.left
+		} else {
+			r = r.right
+		}
+	}
+	return r
 }
 
 func (t *Tree) String() string {
