@@ -67,3 +67,15 @@ func TestSearch_foundLessKey(t *testing.T) {
 		t.Errorf("Found key should have been %v but got %v", 2, found.key)
 	}
 }
+
+func TestRemoveNode(t *testing.T) {
+	tree := &Tree{}
+	for _, val := range []int{5, 4, 3, 2, 1} {
+		tree.Insert(val)
+	}
+	n := tree.Search(2)
+	tree.removeNode(n)
+	if n.parent != nil || n.left != nil || n.right != nil {
+		t.Errorf("Removed node should have linked nodes set to nil")
+	}
+}
