@@ -155,3 +155,19 @@ func Test_grandparent(t *testing.T) {
 		t.Errorf("Granparent of node should be the parent of the parent")
 	}
 }
+
+func Testmin(t *testing.T) {
+	x := &node{key: 5}
+	min := x.min()
+	if min != x {
+		t.Errorf("Expected min of one node to be itself but got %+v", min)
+	}
+	y := &node{key: 4}
+	z := &node{key: 3}
+	y.setChildren(z, nil)
+	x.setChildren(y, nil)
+	min = x.min()
+	if min != z {
+		t.Errorf("Expected min to be %+v but got %+v", z, min)
+	}
+}

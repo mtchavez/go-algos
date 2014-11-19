@@ -77,3 +77,11 @@ func (n *node) grandparent() *node {
 	}
 	return n.parent.parent
 }
+
+func (n *node) min() *node {
+	node := n
+	for node != nil && node.left != nil {
+		node = node.left
+	}
+	return node
+}
