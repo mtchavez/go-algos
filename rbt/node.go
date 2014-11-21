@@ -1,17 +1,20 @@
 package rbt
 
+// Color type is an integer to reference a node color
 type Color int
 
+// Node colors
 const (
-	RED Color = iota
-	BLACK
-	DOUBLY_BLACK
+	Red Color = iota
+	Black
+	DoubleBlack
 )
 
-var COLORMAP = map[Color]string{
-	RED:          "RED",
-	BLACK:        "BLACK",
-	DOUBLY_BLACK: "DOUBLY_BLACK",
+// Map of integer Color value to string color name
+var ColorMap = map[Color]string{
+	Red:         "RED",
+	Black:       "BLACK",
+	DoubleBlack: "DOUBLY_BLACK",
 }
 
 type node struct {

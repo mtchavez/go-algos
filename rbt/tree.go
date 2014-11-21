@@ -2,6 +2,8 @@ package rbt
 
 import "fmt"
 
+// Tree is a struct that references
+// the root node of the RB Tree
 type Tree struct {
 	root *node
 }
@@ -38,6 +40,7 @@ func (t *Tree) rightRotate(y *node) {
 	}
 }
 
+// Insert takes key to put into tree
 func (t *Tree) Insert(key int) {
 	n := t.root
 	x := &node{key: key}
@@ -62,13 +65,13 @@ func (t *Tree) Insert(key int) {
 }
 
 func (t *Tree) balanceInsert(x *node) {
-	for x.parent != nil && x.parent.color == RED {
+	for x.parent != nil && x.parent.color == Red {
 		uncle := x.uncle()
 		grandparent := x.grandparent()
-		if uncle != nil && uncle.color == RED {
-			x.parent.color = BLACK
-			grandparent.color = RED
-			uncle.color = BLACK
+		if uncle != nil && uncle.color == Red {
+			x.parent.color = Black
+			grandparent.color = Red
+			uncle.color = Black
 			x = grandparent
 		} else {
 			if x.parent == grandparent.left {
@@ -76,48 +79,21 @@ func (t *Tree) balanceInsert(x *node) {
 					x = x.parent
 					t.leftRotate(x)
 				}
-				x.parent.color = BLACK
-				grandparent.color = RED
+				x.parent.color = Black
+				grandparent.color = Red
 				t.rightRotate(grandparent)
 			} else {
 				if x == x.parent.left {
 					x = x.parent
 					t.rightRotate(x)
 				}
-				x.parent.color = BLACK
-				grandparent.color = RED
+				x.parent.color = Black
+				grandparent.color = Red
 				t.rightRotate(grandparent)
 			}
 		}
 	}
-	t.root.color = BLACK
-}
-
-func (t *Tree) Delete(key int) {
-	x := t.root
-	if x == nil {
-		return
-	}
-	var parent, db *node
-	if x.left == nil {
-		x.replace(x.right)
-		db = x.right
-	} else if x.right == nil {
-		x.replace(x.left)
-		db = x.left
-	} else {
-		y := x.min()
-		parent = y.parent
-		db = y.right
-		x.key = y.key
-		y.replace(y.right)
-		x = y
-	}
-	if x.color == BLACK {
-		println(parent)
-		println(db)
-	}
-	t.removeNode(x)
+	t.root.color = Black
 }
 
 func (t *Tree) removeNode(x *node) {
@@ -127,6 +103,7 @@ func (t *Tree) removeNode(x *node) {
 	x.parent, x.left, x.right = nil, nil, nil
 }
 
+// Min returns min value of tree
 func (t *Tree) Min() *node {
 	r := t.root
 	for r != nil && r.left != nil {
@@ -135,6 +112,8 @@ func (t *Tree) Min() *node {
 	return r
 }
 
+// Search takes a key to search the tree for
+// and will return a node if found or nil
 func (t *Tree) Search(key int) *node {
 	r := t.root
 	for r != nil && r.key != key {
@@ -154,8 +133,6 @@ func (t *Tree) String() string {
 func (t *Tree) asString(n *node) string {
 	if n == nil {
 		return "."
-	} else {
-		return fmt.Sprintf("(l:%+v key:%+v color:%+v r:%+v)", t.asString(n.left), n.key, COLORMAP[n.color], t.asString(n.right))
 	}
-
+	return fmt.Sprintf("(l:%+v key:%+v color:%+v r:%+v)", t.asString(n.left), n.key, ColorMap[n.color], t.asString(n.right))
 }
