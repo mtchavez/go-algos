@@ -2,6 +2,8 @@ package mergesort
 
 import "math"
 
+// MergeSort algorithm to take a slice
+// of integers and slice indicies
 func MergeSort(list []int, p, r int) {
 	if p < r {
 		q := (p + r) / 2
