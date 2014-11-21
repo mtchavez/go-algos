@@ -17,7 +17,7 @@ func TestMin(t *testing.T) {
 	}
 	min := tree.Min()
 	if min.key != 1 {
-		t.Errorf("Min oftree should be 1 but got %+v", min.key)
+		t.Errorf("Min of tree should be 1 but got %+v", min.key)
 	}
 }
 

@@ -93,6 +93,33 @@ func (t *Tree) balanceInsert(x *node) {
 	t.root.color = BLACK
 }
 
+func (t *Tree) Delete(key int) {
+	x := t.root
+	if x == nil {
+		return
+	}
+	var parent, db *node
+	if x.left == nil {
+		x.replace(x.right)
+		db = x.right
+	} else if x.right == nil {
+		x.replace(x.left)
+		db = x.left
+	} else {
+		y := x.min()
+		parent = y.parent
+		db = y.right
+		x.key = y.key
+		y.replace(y.right)
+		x = y
+	}
+	if x.color == BLACK {
+		println(parent)
+		println(db)
+	}
+	t.removeNode(x)
+}
+
 func (t *Tree) removeNode(x *node) {
 	if x == nil {
 		return
