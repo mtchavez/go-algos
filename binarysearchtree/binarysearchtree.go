@@ -7,16 +7,24 @@ type node struct {
 	right  *node
 }
 
+// Tree is a binary search tree
+// containing root node of tree
 type Tree struct {
 	root *node
 }
 
+// ValConsumer function to take val
+// from walking tree functions
 type ValConsumer func(val int)
 
+// New creates a new binary search tree
 func New() *Tree {
 	return &Tree{}
 }
 
+// InOrderWalk will walk through the tree
+// and takes a ValConsumer function to handle
+// the value of each node as they are walked
 func (t *Tree) InOrderWalk(f ValConsumer) {
 	inOrder(t.root, f)
 }
@@ -30,6 +38,8 @@ func inOrder(n *node, f ValConsumer) {
 	inOrder(n.right, f)
 }
 
+// Search for a value in the tree and returns
+// the node if found
 func (t *Tree) Search(val int) (n *node) {
 	n = t.root
 	for n != nil && n.key != val {
@@ -42,6 +52,7 @@ func (t *Tree) Search(val int) (n *node) {
 	return n
 }
 
+// Min returns min value in tree
 func (t *Tree) Min() *node {
 	return min(t.root)
 }
@@ -53,6 +64,7 @@ func min(n *node) *node {
 	return n
 }
 
+// Max returns max value in tree
 func (t *Tree) Max() (n *node) {
 	return max(t.root)
 }
@@ -64,6 +76,8 @@ func max(n *node) *node {
 	return n
 }
 
+// Successor of x returns the smallest value y
+// from element x such that y > x
 func Successor(n *node) (s *node) {
 	if n == nil {
 		return s
@@ -79,6 +93,8 @@ func Successor(n *node) (s *node) {
 	return s
 }
 
+// Predecessor of x returns the largest value y
+// from element x such that y < x
 func Predecessor(n *node) (s *node) {
 	if n == nil {
 		return s
@@ -94,6 +110,8 @@ func Predecessor(n *node) (s *node) {
 	return s
 }
 
+// Insert takes an integer value
+// to insert into the tree
 func (t *Tree) Insert(val int) {
 	if t.root == nil {
 		t.root = &node{key: val}
