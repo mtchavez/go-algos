@@ -88,3 +88,7 @@ func (n *node) min() *node {
 	}
 	return node
 }
+
+func (n *node) isLeaf() bool {
+	return n.left == nil && n.right == nil
+}

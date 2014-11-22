@@ -103,6 +103,108 @@ func (t *Tree) removeNode(x *node) {
 	x.parent, x.left, x.right = nil, nil, nil
 }
 
+// Delete takes a node in the tree to be removed
+func (t *Tree) Delete(x *node) {
+	if x == nil {
+		return
+	}
+	var parent, db *node
+	if x.left == nil {
+		x.replace(x.right)
+		db = x.right
+	} else if x.right == nil {
+		x.replace(x.left)
+		db = x.left
+	} else {
+		y := x.min()
+		parent = y.parent
+		db = y.right
+		x.key = y.key
+		y.replace(y.right)
+		x = y
+	}
+	if x.color == Black {
+		bal := db
+		if db == nil && parent != nil {
+			if parent.isLeaf() {
+				parent.color = DoubleBlack
+			}
+			bal = parent
+		} else if db != nil {
+			db.color = db.color + 1
+		}
+		t.balanceDelete(bal)
+	}
+	t.removeNode(x)
+}
+
+func checkNodeColor(n *node, c Color) bool {
+	if n == nil {
+		return false
+	}
+	return n.color == c
+}
+
+func (t *Tree) balanceDelete(db *node) {
+	x := t.root
+	if db == nil {
+		return
+	}
+	for db != x && db.color == DoubleBlack {
+		sibling := db.sibling()
+		if sibling != nil {
+			if checkNodeColor(sibling, Red) {
+				db.parent.color = Red
+				sibling.color = Black
+				if db == db.parent.left {
+					t.leftRotate(db.parent)
+				} else {
+					t.rightRotate(db.parent)
+				}
+			} else if checkNodeColor(sibling, Black) && checkNodeColor(sibling.left, Red) {
+				prevColor := db.parent.color
+				if db == db.parent.left {
+					db.color = Black
+					db.parent.color = Black
+					sibling.left.color = prevColor
+					t.rightRotate(sibling)
+					t.leftRotate(db.parent)
+				} else {
+					db.color = Black
+					db.parent.color = Black
+					sibling.color = prevColor
+					sibling.left.color = Black
+				}
+			} else if checkNodeColor(sibling, Black) && checkNodeColor(sibling.right, Red) {
+				prevColor := db.parent.color
+				if db == db.parent.left {
+					db.color = Black
+					db.parent.color = Black
+					sibling.color = prevColor
+					sibling.right.color = Black
+					t.leftRotate(db.parent)
+				} else {
+					db.color = Black
+					db.parent.color = Black
+					sibling.right.color = prevColor
+					t.leftRotate(sibling)
+					t.rightRotate(db.parent)
+				}
+			} else if checkNodeColor(sibling, Black) && !checkNodeColor(sibling.left, Red) && !checkNodeColor(sibling.right, Red) {
+				db.color = Black
+				sibling.color = Red
+				db.parent.color = db.parent.color + 1
+				db = db.parent
+			}
+		} else {
+			db.color = Black
+			db.parent.color = db.parent.color + 1
+			db = db.parent
+		}
+	}
+
+}
+
 // Min returns min value of tree
 func (t *Tree) Min() *node {
 	r := t.root
